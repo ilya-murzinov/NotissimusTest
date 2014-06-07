@@ -1,0 +1,44 @@
+﻿<Window x:Class="NotissimusTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NotissimusTest" Height="200" Width="300" ResizeMode="NoResize">
+    <Grid HorizontalAlignment="Center" Height="Auto" Width="250" Margin="5,5,5,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Height="Auto">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Url:"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Id:" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=Url}" ToolTip="{Binding Path=Url}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=Id}" ToolTip="{Binding Path=Id}" />
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Send to:" />
+            <TextBox x:Name="testBox" Grid.Row="0" Grid.Column="1" Height="25" />
+        </Grid>
+        <ProgressBar x:Name="progressBar" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="25" Minimum="0" Maximum="100"/>
+        <Button x:Name="downlodButton" Grid.Row="3" Grid.Column="0" Height="25" Click="DownloadButtonClick">Download</Button>
+        <Button x:Name="sendButton" Grid.Row="3" Grid.Column="2" Height="25" IsEnabled="False" Click="SendButtonClick">Send</Button>
+        <TextBlock x:Name="downloadedTestBlock" Grid.Row="4" Grid.Column="1" Height="25" TextAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
+</Window>
