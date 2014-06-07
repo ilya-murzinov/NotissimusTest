@@ -8,6 +8,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -34,11 +35,21 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Send to:" />
-            <TextBox x:Name="testBox" Grid.Row="0" Grid.Column="1" Height="25" />
+            <TextBox x:Name="textBox" Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding Path=SendTo}"/>
         </Grid>
-        <ProgressBar x:Name="progressBar" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="25" Minimum="0" Maximum="100"/>
-        <Button x:Name="downlodButton" Grid.Row="3" Grid.Column="0" Height="25" Click="DownloadButtonClick">Download</Button>
-        <Button x:Name="sendButton" Grid.Row="3" Grid.Column="2" Height="25" IsEnabled="False" Click="SendButtonClick">Send</Button>
-        <TextBlock x:Name="downloadedTestBlock" Grid.Row="4" Grid.Column="1" Height="25" TextAlignment="Center" VerticalAlignment="Center"/>
+        <Button x:Name="downlodButton" Grid.Row="4" Grid.Column="0" Height="25" Click="DownloadButtonClick">Download</Button>
+        <Button x:Name="sendButton" Grid.Row="4" Grid.Column="2" Height="25" IsEnabled="False" Click="SendButtonClick">Send</Button>
+        <ProgressBar x:Name="progressBar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="15" Minimum="0" Maximum="100"/>
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Height="25" Text="Status:" VerticalAlignment="Center"/>
+            <TextBlock x:Name="statusTestBlock" Grid.Row="0" Grid.Column="1" Height="25" VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Window>
