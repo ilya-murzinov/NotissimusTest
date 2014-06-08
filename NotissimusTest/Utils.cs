@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Linq;
+using System.Net.Http.Headers;
 
 namespace NotissimusTest
 {
@@ -49,6 +50,7 @@ namespace NotissimusTest
             using (HttpClient client = new HttpClient())
             {
                 HttpContent content = new StringContent(Json);
+                content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/json");
                 HttpResponseMessage responseMessage = await client.PostAsync(uri, content);
                 response = await responseMessage.Content.ReadAsStringAsync();
             }
