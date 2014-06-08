@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using System.Linq;
+using Newtonsoft.Json;
 
 namespace NotissimusTest
 {
@@ -20,12 +20,12 @@ namespace NotissimusTest
         public static async Task<yml_catalog> Get(string url)
         {
             Stream xmlStream;
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 Task<Stream> xml = client.GetStreamAsync(url);
                 xmlStream = await xml;
             }
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(yml_catalog));
+            var xmlSerializer = new XmlSerializer(typeof (yml_catalog));
             return (yml_catalog) xmlSerializer.Deserialize(xmlStream);
         }
 
@@ -42,11 +42,11 @@ namespace NotissimusTest
 
             Json = JsonConvert.SerializeObject(offer,
                 Formatting.Indented,
-                new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
 
             string response;
 
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 HttpContent content = new StringContent(Json);
                 HttpResponseMessage responseMessage = await client.PostAsync(uri, content);

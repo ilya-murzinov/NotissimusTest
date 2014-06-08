@@ -1,47 +1,50 @@
 ﻿using System;
-using System.Net.Http;
 using System.Windows;
 
 namespace NotissimusTest
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        /// <summary>
-        /// Url to GET xml
-        /// </summary>
-        public string Url 
-        { 
-            get { return "http://partner.market.yandex.ru/pages/help/YML.xml"; }
-        }
-        /// <summary>
-        /// Id of orger to POST to another url
-        /// </summary>
-        public string Id 
-        { 
-            get { return "12344"; } 
-        }
-        private string _postTo = "http://google.com/";
-        /// <summary>
-        /// Url to POST result JSON
-        /// </summary>
-        public string PostTo
-        {
-            get { return _postTo; }
-            set { _postTo = value; }
-        }
-        public string Request { get; private set; }
-        /// <summary>
-        /// Response to POST request
-        /// </summary>
-        public string Response { get; private set; }
-
         private yml_catalog _model;
+        private string _postTo = "http://google.com/";
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
         }
+
+        /// <summary>
+        ///     Url to GET xml
+        /// </summary>
+        public string Url
+        {
+            get { return "http://partner.market.yandex.ru/pages/help/YML.xml"; }
+        }
+
+        /// <summary>
+        ///     Id of orger to POST to another url
+        /// </summary>
+        public string Id
+        {
+            get { return "12344"; }
+        }
+
+        /// <summary>
+        ///     Url to POST result JSON
+        /// </summary>
+        public string PostTo
+        {
+            get { return _postTo; }
+            set { _postTo = value; }
+        }
+
+        public string Request { get; private set; }
+
+        /// <summary>
+        ///     Response to POST request
+        /// </summary>
+        public string Response { get; private set; }
 
         private async void GetButtonClick(object sender, RoutedEventArgs e)
         {
@@ -61,7 +64,8 @@ namespace NotissimusTest
                 getButton.IsEnabled = true;
                 progressBar.IsIndeterminate = false;
                 statusTestBlock.Text = "Error.";
-                MessageBox.Show(String.Format("Failed to GET.{0}\n Exception message: {1}\n StackTrace: {2}", ex.GetType(), ex.Message, ex.StackTrace));
+                MessageBox.Show(String.Format("Failed to GET.{0}\n Exception message: {1}\n StackTrace: {2}",
+                    ex.GetType(), ex.Message, ex.StackTrace));
                 return;
             }
 
@@ -95,10 +99,10 @@ namespace NotissimusTest
             //Update UI
             statusTestBlock.Text = "Sending POST request...";
             progressBar.IsIndeterminate = true;
-            
+
             //Sending POST request in background
             Response = await Utils.Post(_model, Id, uri);
-            
+
             //Update UI
             statusTestBlock.Text = "Done!";
             responseLink.Visibility = Visibility.Visible;
