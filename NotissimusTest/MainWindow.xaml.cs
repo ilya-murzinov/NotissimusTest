@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Windows;
 
 namespace NotissimusTest
@@ -28,6 +29,7 @@ namespace NotissimusTest
             get { return _postTo; }
             set { _postTo = value; }
         }
+        public string Request { get; private set; }
         /// <summary>
         /// Response to POST request
         /// </summary>
@@ -96,7 +98,7 @@ namespace NotissimusTest
             
             //Sending POST request in background
             Response = await Utils.Post(_model, Id, uri);
-
+            
             //Update UI
             statusTestBlock.Text = "Done!";
             responseLink.Visibility = Visibility.Visible;
@@ -114,7 +116,7 @@ namespace NotissimusTest
 
         private void RequestLinkClick(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Response);
+            MessageBox.Show(Utils.Json);
         }
     }
 }

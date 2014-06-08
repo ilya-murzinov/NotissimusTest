@@ -1,8 +1,8 @@
 ﻿<Window x:Class="NotissimusTest.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="NotissimusTest" Height="200" Width="300" ResizeMode="NoResize">
-    <Grid HorizontalAlignment="Center" Height="Auto" Width="250" Margin="5,5,5,5">
+        Title="NotissimusTest" Height="200" Width="400" ResizeMode="NoResize">
+    <Grid HorizontalAlignment="Center" Height="Auto" Width="350" Margin="5,5,5,5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -46,15 +46,15 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="60"/>
-                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="150" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Height="25" Text="Status:" VerticalAlignment="Center"/>
             <TextBlock x:Name="statusTestBlock" Grid.Row="0" Grid.Column="1" Height="25" VerticalAlignment="Center"/>
-            <TextBlock x:Name="responseLink" Grid.Row="0" Grid.Column="2" Height="50" VerticalAlignment="Center" Visibility="Hidden">
-                <Hyperlink Click="RequestLinkClick">POST request</Hyperlink>
+            <TextBlock x:Name="responseLink" Grid.Row="0" Grid.Column="2" Height="50" VerticalAlignment="Center" Visibility="Hidden" TextAlignment="Right">
+                <Hyperlink Click="RequestLinkClick">See JSON</Hyperlink>
                 <LineBreak/>
-                <Hyperlink Click="ResponseLinkClick">POST response</Hyperlink>
+                <Hyperlink Click="ResponseLinkClick">Response to POST request</Hyperlink>
             </TextBlock>
         </Grid>
     </Grid>

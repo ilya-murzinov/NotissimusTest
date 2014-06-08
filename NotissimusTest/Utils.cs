@@ -10,6 +10,13 @@ namespace NotissimusTest
 {
     internal static class Utils
     {
+        public static string Json;
+
+        /// <summary>
+        ///     Download XML from specified URL and deserialize it to model
+        /// </summary>
+        /// <param name="url">XML URL</param>
+        /// <returns></returns>
         public static async Task<yml_catalog> Get(string url)
         {
             Stream xmlStream;
@@ -22,11 +29,18 @@ namespace NotissimusTest
             return (yml_catalog) xmlSerializer.Deserialize(xmlStream);
         }
 
+        /// <summary>
+        ///     Find offer with specified Id, serialize it to JSON and POST request JSON to specified URI
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="id">Offer Id</param>
+        /// <param name="uri">URI to POST request</param>
+        /// <returns></returns>
         public static async Task<string> Post(yml_catalog model, string id, Uri uri)
         {
             offer offer = model.shop.offers.First(x => x.id == id);
 
-            string json = JsonConvert.SerializeObject(offer,
+            Json = JsonConvert.SerializeObject(offer,
                 Formatting.Indented,
                 new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
 
@@ -34,7 +48,7 @@ namespace NotissimusTest
 
             using (HttpClient client = new HttpClient())
             {
-                HttpContent content = new StringContent(json);
+                HttpContent content = new StringContent(Json);
                 HttpResponseMessage responseMessage = await client.PostAsync(uri, content);
                 response = await responseMessage.Content.ReadAsStringAsync();
             }
