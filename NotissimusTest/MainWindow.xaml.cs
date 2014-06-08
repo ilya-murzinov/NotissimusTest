@@ -1,41 +1,38 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Serialization;
 
 namespace NotissimusTest
 {
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Url to GET xml
+        /// </summary>
         public string Url 
         { 
             get { return "http://partner.market.yandex.ru/pages/help/YML.xml"; }
         }
+        /// <summary>
+        /// Id of orger to POST to another url
+        /// </summary>
         public string Id 
         { 
             get { return "12344"; } 
         }
-        private string _sendTo = "http://google.com/";
-        public string SendTo
+        private string _postTo = "http://google.com/";
+        /// <summary>
+        /// Url to POST result JSON
+        /// </summary>
+        public string PostTo
         {
-            get { return _sendTo; }
-            set { _sendTo = value; }
+            get { return _postTo; }
+            set { _postTo = value; }
         }
+        /// <summary>
+        /// Response to POST request
+        /// </summary>
+        public string Response { get; private set; }
+
         private yml_catalog _model;
 
         public MainWindow()
@@ -44,39 +41,47 @@ namespace NotissimusTest
             DataContext = this;
         }
 
-        private async void DownloadButtonClick(object sender, RoutedEventArgs e)
+        private async void GetButtonClick(object sender, RoutedEventArgs e)
         {
-            downlodButton.IsEnabled = false;
+            //Update UI
+            getButton.IsEnabled = false;
             progressBar.IsIndeterminate = true;
-            statusTestBlock.Text = "Downloading...";
+            statusTestBlock.Text = "Getting and deserializing...";
+            responseLink.Visibility = Visibility.Hidden;
 
-            Stream xmlStream;
-            using (HttpClient client = new HttpClient())
+            //Sending GET request and deserializing response to model
+            try
             {
-                Task<Stream> xml = client.GetStreamAsync(Url);
-                xmlStream = await xml;
+                _model = await Utils.Get(Url);
             }
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(yml_catalog));
-            await Task.Run(() => _model = (yml_catalog) xmlSerializer.Deserialize(xmlStream));
-            
-            sendButton.IsEnabled = true;
+            catch (Exception ex)
+            {
+                getButton.IsEnabled = true;
+                progressBar.IsIndeterminate = false;
+                statusTestBlock.Text = "Error.";
+                MessageBox.Show(String.Format("Failed to GET.{0}\n Exception message: {1}\n StackTrace: {2}", ex.GetType(), ex.Message, ex.StackTrace));
+                return;
+            }
+
+            //Update UI
+            postButton.IsEnabled = true;
             progressBar.IsIndeterminate = false;
-            statusTestBlock.Text = "Downloaded!";
+            statusTestBlock.Text = "Done!";
         }
 
         private async void SendButtonClick(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(SendTo))
+            Uri uri = null;
+            //Trying to parse string to Uri
+            if (String.IsNullOrEmpty(PostTo))
             {
                 MessageBox.Show("Please specify URL.");
                 return;
             }
-
-            Uri uri = null;
-            Uri.TryCreate(SendTo, UriKind.Absolute, out uri);
+            Uri.TryCreate(PostTo, UriKind.Absolute, out uri);
             if (uri == null)
             {
-                Uri.TryCreate("http://" + SendTo, UriKind.Absolute, out uri);
+                Uri.TryCreate("http://" + PostTo, UriKind.Absolute, out uri);
             }
 
             if (uri == null)
@@ -84,28 +89,32 @@ namespace NotissimusTest
                 MessageBox.Show("Please specify valid URL.");
                 return;
             }
-            
-            offer offer = _model.shop.offers.First(x => x.id == Id);
 
-            string json = JsonConvert.SerializeObject(offer, 
-                Formatting.Indented, 
-                new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore});
-
-            statusTestBlock.Text = "Sending...";
+            //Update UI
+            statusTestBlock.Text = "Sending POST request...";
             progressBar.IsIndeterminate = true;
-            using (HttpClient client = new HttpClient())
-            {                
-                HttpContent content = new StringContent(json);
-                HttpResponseMessage responseMessage = await client.PostAsync(uri, content);
-                string response = await responseMessage.Content.ReadAsStringAsync();
-                statusTestBlock.Text = "Sent!";
-                progressBar.IsIndeterminate = false;
-                MessageBox.Show(response);
-            }
+            
+            //Sending POST request in background
+            Response = await Utils.Post(_model, Id, uri);
+
+            //Update UI
+            statusTestBlock.Text = "Done!";
+            responseLink.Visibility = Visibility.Visible;
+            progressBar.IsIndeterminate = false;
+            getButton.IsEnabled = true;
+            postButton.IsEnabled = false;
+            //Reset model
             _model = null;
-            json = null;
-            downlodButton.IsEnabled = true;
-            sendButton.IsEnabled = false;
+        }
+
+        private void ResponseLinkClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(Response);
+        }
+
+        private void RequestLinkClick(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(Response);
         }
     }
 }

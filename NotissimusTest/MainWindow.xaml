@@ -21,35 +21,41 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="60"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Url:"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Id:" />
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="GET from:"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Offer Id:" />
             <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=Url}" ToolTip="{Binding Path=Url}" />
             <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Path=Id}" ToolTip="{Binding Path=Id}" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="60" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Send to:" />
-            <TextBox x:Name="textBox" Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding Path=SendTo}"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="POST to:" />
+            <TextBox x:Name="textBox" Grid.Row="0" Grid.Column="1" Height="25" Text="{Binding Path=PostTo}"/>
         </Grid>
-        <Button x:Name="downlodButton" Grid.Row="4" Grid.Column="0" Height="25" Click="DownloadButtonClick">Download</Button>
-        <Button x:Name="sendButton" Grid.Row="4" Grid.Column="2" Height="25" IsEnabled="False" Click="SendButtonClick">Send</Button>
+        <Button x:Name="getButton" Grid.Row="4" Grid.Column="0" Height="25" Click="GetButtonClick">GET</Button>
+        <Button x:Name="postButton" Grid.Row="4" Grid.Column="2" Height="25" IsEnabled="False" Click="SendButtonClick">POST</Button>
         <ProgressBar x:Name="progressBar" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Height="15" Minimum="0" Maximum="100"/>
-        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="48">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Height="25" Text="Status:" VerticalAlignment="Center"/>
             <TextBlock x:Name="statusTestBlock" Grid.Row="0" Grid.Column="1" Height="25" VerticalAlignment="Center"/>
+            <TextBlock x:Name="responseLink" Grid.Row="0" Grid.Column="2" Height="50" VerticalAlignment="Center" Visibility="Hidden">
+                <Hyperlink Click="RequestLinkClick">POST request</Hyperlink>
+                <LineBreak/>
+                <Hyperlink Click="ResponseLinkClick">POST response</Hyperlink>
+            </TextBlock>
         </Grid>
     </Grid>
 </Window>

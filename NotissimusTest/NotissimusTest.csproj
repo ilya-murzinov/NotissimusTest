@@ -61,6 +61,7 @@
     <Compile Include="shops.cs">
       <DependentUpon>shops.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Utils.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
