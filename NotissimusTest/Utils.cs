@@ -43,11 +43,14 @@ namespace NotissimusTest
         /// <returns></returns>
         public static async Task<string> Post(yml_catalog model, string id, Uri uri)
         {
-            offer offer = model.shop.offers.First(x => x.id == id);
+            await Task.Run(() =>
+            {
+                offer offer = model.shop.offers.First(x => x.id == id);
 
-            Json = JsonConvert.SerializeObject(offer,
-                Formatting.Indented,
-                new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+                Json = JsonConvert.SerializeObject(offer,
+                    Formatting.Indented,
+                    new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+            });
 
             string response;
 
