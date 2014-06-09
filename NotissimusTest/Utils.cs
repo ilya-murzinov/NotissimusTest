@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -22,11 +23,14 @@ namespace NotissimusTest
             Stream xmlStream;
             using (var client = new HttpClient())
             {
+                //Imitation of long-going operation
+                await Task.Run(() => Thread.Sleep(5000));
+
                 Task<Stream> xml = client.GetStreamAsync(url);
                 xmlStream = await xml;
             }
             var xmlSerializer = new XmlSerializer(typeof (yml_catalog));
-            return (yml_catalog) xmlSerializer.Deserialize(xmlStream);
+            return await Task.Run(() => (yml_catalog) xmlSerializer.Deserialize(xmlStream));
         }
 
         /// <summary>

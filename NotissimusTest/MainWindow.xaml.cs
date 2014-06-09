@@ -6,7 +6,7 @@ namespace NotissimusTest
     public partial class MainWindow
     {
         private yml_catalog _model;
-        private string _postTo = "http://google.com/";
+        private string _postTo = "http://httpbin.org/post";
 
         public MainWindow()
         {
