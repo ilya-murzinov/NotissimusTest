@@ -43,6 +43,9 @@ namespace NotissimusTest
         /// <returns></returns>
         public static async Task<string> Post(yml_catalog model, string id, Uri uri)
         {
+            //Imitation of long-going operation
+            await Task.Run(() => Thread.Sleep(5000));
+
             await Task.Run(() =>
             {
                 offer offer = model.shop.offers.First(x => x.id == id);
